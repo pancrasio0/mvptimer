@@ -7,6 +7,10 @@
       {
         "mapname": "prt_dugn03(old pow)",
         "respawnTime": 300000
+      },
+	  {
+        "mapname": "pro_fild01(old pow)",
+        "respawnTime": 300000
       }
     ],
     "stats": {
