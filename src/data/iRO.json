@@ -567,6 +567,10 @@
       {
         "mapname": "ve_fild02",
         "respawnTime": 21600000
+      },
+	  {
+        "mapname": "ra_fild02",
+        "respawnTime": 14400000
       }
     ],
     "stats": {
