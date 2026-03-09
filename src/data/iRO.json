@@ -49,6 +49,10 @@
       {
         "mapname": "gef_fild03",
         "respawnTime": 3600000
+      },
+	  {
+        "mapname": "gef_fild02",
+        "respawnTime": 86400000
       }
     ],
     "stats": {
