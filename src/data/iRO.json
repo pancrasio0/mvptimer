@@ -176,6 +176,10 @@
       {
         "mapname": "moc_fild17",
         "respawnTime": 7200000
+      },
+	  {
+        "mapname": "mrc_fild04(old pow)",
+        "respawnTime": 36000000
       }
     ],
     "stats": {
