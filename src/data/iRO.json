@@ -5,12 +5,12 @@
     "name": "Misterio",
     "spawn": [
       {
-        "mapname": "prt_dugn03(old pow)",
+        "mapname": "prt_dugn03_(old pow)",
         "respawnTime": 300000
       },
 	  {
         "mapname": "pro_fild01(old pow)",
-        "respawnTime": 300000
+        "respawnTime": 7200000
       }
     ],
     "stats": {
@@ -447,7 +447,7 @@
         "respawnTime": 7200000
       },
 	  {
-        "mapname": "prt_dugn01(old pow)",
+        "mapname": "prt_dugn01_(old pow)",
         "respawnTime": 7200000
       }
     ],
