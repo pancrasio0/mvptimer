@@ -1,4 +1,21 @@
-[
+[	
+	{
+    "id": 9999,
+    "dbname": "BIOLAB3",
+    "name": "BIOLAB3",
+    "spawn": [
+      {
+        "mapname": "lhz_dun03",
+        "respawnTime": 6600000
+      }
+    ],
+    "stats": {
+      "level": 99,
+      "health": 265203,
+      "baseExperience": 106267,
+      "jobExperience": 87747
+    }
+   },
 	{
     "id": 2441,
     "dbname": "B_NOVICE",
@@ -10,7 +27,7 @@
       },
 	  {
         "mapname": "pro_fild01(old pow)",
-        "respawnTime": 7200000
+        "respawnTime": 3600000
       }
     ],
     "stats": {
