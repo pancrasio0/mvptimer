@@ -64,7 +64,7 @@
     "name": "Orc Hero",
     "spawn": [
       {
-        "mapname": "gef_fild03",
+        "mapname": "gef_fild14",
         "respawnTime": 3600000
       },
 	  {
@@ -144,7 +144,7 @@
         "respawnTime": 28800000
       },
       {
-        "mapname": "pay_fild10",
+        "mapname": "pay_fild11",
         "respawnTime": 7200000
       }
     ],
