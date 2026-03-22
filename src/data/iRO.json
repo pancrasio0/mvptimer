@@ -97,6 +97,27 @@
     }
   },
   {
+    "id": 1289,
+    "dbname": "MAYA_PURPLE",
+    "name": "Maya Purple",
+    "spawn": [
+      {
+        "mapname": "anthell01",
+        "respawnTime": 10200000
+      },
+      {
+        "mapname": "gld_dun02_2_2",
+        "respawnTime": 1200000
+      }
+    ],
+    "stats": {
+      "level": 55,
+      "health": 380000,
+      "baseExperience": 89280,
+      "jobExperience": 66960
+    }
+  },
+  {
     "id": 1147,
     "dbname": "MAYA",
     "name": "Maya",
