@@ -1,4 +1,21 @@
 [	
+{
+    "id": 1120,
+    "dbname": "GHOSTRING",
+    "name": "GHOSTRING",
+    "spawn": [
+      {
+        "mapname": "OLD_POW",
+        "respawnTime": 600000
+      }
+    ],
+    "stats": {
+      "level": 99,
+      "health": 265203,
+      "baseExperience": 106267,
+      "jobExperience": 87747
+    }
+   },
 	{
     "id": 9999,
     "dbname": "BIOLAB3",
