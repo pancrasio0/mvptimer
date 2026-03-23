@@ -23,7 +23,7 @@
     "spawn": [
       {
         "mapname": "lhz_dun03",
-        "respawnTime": 6600000
+        "respawnTime": 7200000
       }
     ],
     "stats": {
