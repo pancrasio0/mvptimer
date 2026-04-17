@@ -1,5 +1,22 @@
 [	
-{
+	{
+    "id": 6767,
+    "dbname": "SUFRAGIO",
+    "name": "SUFRAGIO",
+    "spawn": [
+      {
+        "mapname": "papeleta",
+        "respawnTime": 86400000
+      }
+    ],
+    "stats": {
+      "level": 99,
+      "health": 265203,
+      "baseExperience": 106267,
+      "jobExperience": 87747
+    }
+   },
+   {
     "id": 1120,
     "dbname": "GHOSTRING",
     "name": "GHOSTRING",
