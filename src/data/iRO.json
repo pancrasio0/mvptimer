@@ -1,5 +1,39 @@
 [	
 	{
+    "id": 1991,
+    "dbname": "Tendrilrion",
+    "name": "Tendrilrion",
+    "spawn": [
+      {
+        "mapname": "spl_fild03",
+        "respawnTime": 3600000
+      }
+    ],
+    "stats": {
+      "level": 99,
+      "health": 265203,
+      "baseExperience": 106267,
+      "jobExperience": 87747
+    }
+   },
+	{
+    "id": 1990,
+    "dbname": "Hardrock Mommoth",
+    "name": "Hardrock Mommoth",
+    "spawn": [
+      {
+        "mapname": "man_fild03",
+        "respawnTime": 14400000
+      }
+    ],
+    "stats": {
+      "level": 99,
+      "health": 265203,
+      "baseExperience": 106267,
+      "jobExperience": 87747
+    }
+   },
+	{
     "id": 6767,
     "dbname": "SUFRAGIO",
     "name": "SUFRAGIO",
