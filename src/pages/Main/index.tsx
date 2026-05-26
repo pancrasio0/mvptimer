@@ -27,6 +27,11 @@ export function Main() {
         : [],
     [activeMvps, isOnline, hasNotifPref]
   );
+
+  const unfavoritedActive = useMemo(
+    () => activeMvps.filter((mvp) => !favoritedActive.includes(mvp)),
+    [activeMvps, favoritedActive]
+  );
   const [searchQuery, setSearchQuery] = useState<string>(
     sessionStorage.getItem('search') || ''
   );
@@ -68,14 +73,14 @@ export function Main() {
           </Section>
         )}
 
-        {activeMvps.length > 0 && (
+        {unfavoritedActive.length > 0 && (
           <Section>
             <SectionTitle>
               <FormattedMessage id='active' />
             </SectionTitle>
 
             <MvpsContainer>
-              {activeMvps.map((mvp: IMvp) => (
+              {unfavoritedActive.map((mvp: IMvp) => (
                 <MvpCard key={`${mvp.id}-${mvp.deathMap}`} mvp={mvp} />
               ))}
             </MvpsContainer>
