@@ -2,6 +2,7 @@ export { useClickOutside } from './useClickOutside';
 export { useCountdown } from './useCountdown';
 export { useKey } from './useKey';
 export { useNotification } from './useNotification';
+export { useNotificationPrefs } from './useNotificationPrefs';
 export { usePersistedState } from './usePersistedState';
 export { useScrollBlock } from './useScrollBlock';
 export { useSecondsTimer } from './useSecondsTimer';

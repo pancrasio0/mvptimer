@@ -1,65 +1,56 @@
-import dayjs from 'dayjs';
+import { supabase, getPlayerName } from '@/lib/supabase';
 
-import { LOCAL_STORAGE_ACTIVE_MVPS_KEY } from '@/constants';
-import { getServerData } from '@/utils';
+export async function loadKills(): Promise<IKill[]> {
+  const { data, error } = await supabase
+    .from('kills')
+    .select('*');
 
-export async function loadMvpsFromLocalStorage(
-  server: string
-): Promise<IMvp[]> {
-  try {
-    const data = localStorage.getItem(LOCAL_STORAGE_ACTIVE_MVPS_KEY);
-    if (!data) return [];
-
-    const dataParse = JSON.parse(data);
-    if (!dataParse) return [];
-
-    const savedServerData = dataParse[server];
-
-    const hasSavedServerData = !!savedServerData;
-    if (!hasSavedServerData) return [];
-
-    const originalServerData = await getServerData(server);
-
-    const finalData = savedServerData.map((mvp: IMvp) => ({
-      ...originalServerData.find((m) => m.id === mvp.id),
-      deathMap: mvp.deathMap,
-      deathPosition: mvp.deathPosition,
-      deathTime: dayjs(mvp.deathTime).toDate(),
-    }));
-
-    return finalData;
-  } catch (error) {
-    console.error('Failed to load mvps from local storage', error);
+  if (error) {
+    console.error('Failed to load kills', error);
     return [];
   }
+
+  return data || [];
 }
 
-export function saveActiveMvpsToLocalStorage(
-  activeMvps: IMvp[],
-  server: string
+export async function upsertKill(
+  mvpId: number,
+  deathMap: string,
+  deathTime: string,
+  deathPosition: IMapMark | null
 ) {
-  const data = activeMvps?.map((mvp) => ({
-    id: mvp.id,
-    deathMap: mvp.deathMap,
-    deathTime: mvp.deathTime,
-    deathPosition: mvp.deathPosition,
-  }));
+  const { data: { user } } = await supabase.auth.getUser();
 
-  const currentLocalMvps = localStorage.getItem(LOCAL_STORAGE_ACTIVE_MVPS_KEY);
+  const { error } = await supabase
+    .from('kills')
+    .upsert({
+      mvp_id: mvpId,
+      death_map: deathMap,
+      death_time: deathTime,
+      death_position: deathPosition,
+      killed_by: user?.id,
+      killed_by_name: getPlayerName(),
+    }, {
+      onConflict: 'mvp_id, death_map',
+    });
 
-  const currentData = currentLocalMvps ? JSON.parse(currentLocalMvps) : {};
+  if (error) console.error('Failed to upsert kill', error);
+}
 
-  const updatedActiveData = {
-    ...currentData,
-    [server]: data,
-  };
+export async function updateKillTime(mvpId: number, deathMap: string, deathTime: string) {
+  const { error } = await supabase
+    .from('kills')
+    .update({ death_time: deathTime })
+    .match({ mvp_id: mvpId, death_map: deathMap });
 
-  Object.keys(updatedActiveData).forEach(
-    (key) => !isNaN(Number(key)) && delete updatedActiveData[key]
-  );
+  if (error) console.error('Failed to update kill time', error);
+}
 
-  localStorage.setItem(
-    LOCAL_STORAGE_ACTIVE_MVPS_KEY,
-    JSON.stringify(updatedActiveData)
-  );
+export async function deleteKill(mvpId: number, deathMap: string) {
+  const { error } = await supabase
+    .from('kills')
+    .delete()
+    .match({ mvp_id: mvpId, death_map: deathMap });
+
+  if (error) console.error('Failed to delete kill', error);
 }

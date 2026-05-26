@@ -38,14 +38,14 @@ export function Footer() {
           </Link>
           &{' '}
           <Link href='https://db.irowiki.org/' target='_blank'>
-            iRO Wiki DB <ExternalLink size={14} />
+            pow4ever Wiki DB <ExternalLink size={14} />
           </Link>
         </Text>
 
         <Text>
           <FormattedMessage id='affiliation' />
           <Bold>DivinePride, </Bold>
-          <Bold>iRO Wiki DB</Bold>
+          <Bold>pow4ever Wiki DB</Bold>
           <FormattedMessage id='or' />
           <Bold>Gravity Interactive</Bold>
         </Text>

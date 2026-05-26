@@ -35,6 +35,13 @@ export const Name = styled.span`
   color: var(--mvpCard_name);
 `;
 
+export const KilledBy = styled.span`
+  font-size: 11px;
+  color: var(--mvpCard_text);
+  opacity: 0.75;
+  margin-top: 2px;
+`;
+
 export const MapName = styled.span`
   text-align: center;
   white-space: pre-wrap;
@@ -113,8 +120,30 @@ export const Control = styled.button`
   &:nth-child(3) {
     background-color: var(--mvpCard_controls_delete);
   }
+`;
 
-  /* :nth-child(4) {
-    background-color: var(--mvpCard_controls_edit);
-  } */
+export const BellButton = styled.button<{ active?: boolean }>`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-top: 8px;
+
+  font-weight: bolder;
+  background-color: ${({ active }) =>
+    active ? 'var(--mvpCard_controls_edit)' : 'var(--mvpCard_controls_delete)'};
+
+  svg {
+    stroke-width: 3px;
+    width: 17px;
+    height: 17px;
+    color: #fff;
+  }
+
+  &:hover {
+    opacity: 0.8;
+  }
 `;

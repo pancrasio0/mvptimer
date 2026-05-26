@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { Map, RefreshCcw, Trash2, Edit2 } from '@styled-icons/feather';
+import { Map, RefreshCcw, Trash2, Edit2, Bell, BellOff } from '@styled-icons/feather';
 import { FormattedMessage } from 'react-intl';
 import dayjs from 'dayjs';
 
@@ -7,7 +7,7 @@ import { MvpSprite } from '../MvpSprite';
 import { MvpCardCountdown } from '../MvpCardCountdown';
 import { ModalMvpMap } from '@/modals';
 
-import { useNotification } from '@/hooks';
+import { useNotification, useNotificationPrefs } from '@/hooks';
 
 import { useMvpsContext } from '@/contexts/MvpsContext';
 import { useSettings } from '@/contexts/SettingsContext';
@@ -19,12 +19,14 @@ import {
   Header,
   ID,
   Name,
+  KilledBy,
   MapName,
   Controls,
   Control,
   Bold,
   KilledNow,
   EditButton,
+  BellButton,
 } from './styles';
 
 interface MvpCardProps {
@@ -36,9 +38,11 @@ export function MvpCard({ mvp }: MvpCardProps) {
     useMvpsContext();
   const { respawnAsCountdown, animatedSprites } = useSettings();
   const { respawnNotification } = useNotification();
+  const { has: hasNotifPref, toggle: toggleNotifPref } = useNotificationPrefs();
   const [isMapModalOpen, setIsMapModalOpen] = useState(false);
 
   const isActive = !!mvp.deathMap;
+  const isNotifEnabled = hasNotifPref(mvp.id);
 
   const nextRespawn = useMemo(
     () => dayjs(mvp.deathTime).add(getMvpRespawnTime(mvp), 'ms'),
@@ -61,6 +65,7 @@ export function MvpCard({ mvp }: MvpCardProps) {
         <Header>
           <ID>{`(${mvp.id})`}</ID>
           <Name>{mvp.name}</Name>
+          {isActive && mvp.killedBy && <KilledBy>by {mvp.killedBy}</KilledBy>}
         </Header>
 
         <MvpSprite id={mvp.id} name={mvp.name} animated={animatedSprites} />
@@ -70,14 +75,25 @@ export function MvpCard({ mvp }: MvpCardProps) {
             <MvpCardCountdown
               nextRespawn={nextRespawn}
               respawnAsCountdown={respawnAsCountdown}
-              onTriggerNotification={() =>
-                respawnNotification(
-                  mvp.id,
-                  `${mvp.name} ${GetTranslateText('will_respawn')}`,
-                  `${mvp.deathMap} - ${nextRespawn.format('HH:mm')}`
-                )
+              onTriggerNotification={
+                isNotifEnabled
+                  ? () =>
+                      respawnNotification(
+                        mvp.id,
+                        `${mvp.name} ${GetTranslateText('will_respawn')}`,
+                        `${mvp.deathMap} - ${nextRespawn.format('HH:mm')}`
+                      )
+                  : undefined
               }
             />
+
+            <BellButton
+              onClick={() => toggleNotifPref(mvp.id)}
+              title={isNotifEnabled ? 'Disable notification' : 'Enable notification'}
+              active={isNotifEnabled}
+            >
+              {isNotifEnabled ? <Bell /> : <BellOff />}
+            </BellButton>
 
             <MapName>
               <FormattedMessage id='map' />
@@ -104,23 +120,27 @@ export function MvpCard({ mvp }: MvpCardProps) {
               >
                 <Trash2 />
               </Control>
-              {/* <Control
-              onClick={() => openAndEditModal(mvp)}
-              title='Edit this mvp'
-            >
-              <Edit2 />
-            </Control> */}
             </Controls>
           </>
         ) : (
-          <Controls isActive={!isActive}>
-            <KilledNow onClick={handleKilledNow}>
-              <FormattedMessage id='killed_now' />
-            </KilledNow>
-            <EditButton onClick={() => setEditingMvp(mvp)}>
-              <FormattedMessage id='edit' />
-            </EditButton>
-          </Controls>
+          <>
+            <BellButton
+              onClick={() => toggleNotifPref(mvp.id)}
+              title={isNotifEnabled ? 'Disable notification' : 'Enable notification'}
+              active={isNotifEnabled}
+            >
+              {isNotifEnabled ? <Bell /> : <BellOff />}
+            </BellButton>
+
+            <Controls isActive={!isActive}>
+              <KilledNow onClick={handleKilledNow}>
+                <FormattedMessage id='killed_now' />
+              </KilledNow>
+              <EditButton onClick={() => setEditingMvp(mvp)}>
+                <FormattedMessage id='edit' />
+              </EditButton>
+            </Controls>
+          </>
         )}
       </Container>
 

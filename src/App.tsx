@@ -17,6 +17,7 @@ import { Footer } from './components/Footer';
 import { useSettings } from './contexts/SettingsContext';
 import { MvpProvider } from './contexts/MvpsContext';
 import { useNotification } from './hooks';
+import { initAnonAuth } from './lib/supabase';
 
 import { LOCALES } from './locales';
 import { messages } from './locales/messages';
@@ -32,6 +33,10 @@ export default function App() {
   useEffect(() => {
     dayjs.locale(language);
   }, [language]);
+
+  useEffect(() => {
+    initAnonAuth();
+  }, []);
 
   return (
     <>
@@ -61,7 +66,6 @@ export default function App() {
         </MvpProvider>
 
         <Footer />
-        {/* <WarningHeader text={messages[language]['under_development']} /> */}
       </IntlProvider>
     </>
   );

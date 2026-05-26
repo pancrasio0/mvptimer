@@ -21,4 +21,16 @@ interface IMvp {
   deathTime?: Date;
   deathMap?: string;
   deathPosition?: IMapMark;
+  killedBy?: string;
+}
+
+interface IKill {
+  id?: number;
+  mvp_id: number;
+  death_map: string;
+  death_time: string;
+  death_position: IMapMark | null;
+  killed_by: string;
+  killed_by_name?: string;
+  created_at?: string;
 }
