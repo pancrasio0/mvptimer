@@ -14,7 +14,8 @@ import { useSettings } from './SettingsContext';
 
 import { supabase, initAnonAuth, getPlayerName } from '@/lib/supabase';
 import { getMvpRespawnTime, getServerData } from '@/utils';
-import { loadKills, upsertKill, updateKillTime, deleteKill } from '@/controllers/mvp';
+import * as onlineCtrl from '@/controllers/mvp';
+import * as offlineCtrl from '@/controllers/mvpLocal';
 
 interface MvpProviderProps {
   children: ReactNode;
@@ -35,7 +36,7 @@ interface MvpsContextData {
 export const MvpsContext = createContext({} as MvpsContextData);
 
 export function MvpProvider({ children }: MvpProviderProps) {
-  const { server } = useSettings();
+  const { server, isOnline } = useSettings();
 
   const [isLoading, setIsLoading] = useState(true);
   const [editingMvp, setEditingMvp] = useState<IMvp>();
@@ -43,42 +44,48 @@ export function MvpProvider({ children }: MvpProviderProps) {
   const [allMvps, setAllMvps] = useState<IMvp[]>([]);
   const [kills, setKills] = useState<IKill[]>([]);
 
+  const ctrl = isOnline ? onlineCtrl : offlineCtrl;
+
   useEffect(() => {
     let channel: RealtimeChannel;
 
     async function init() {
-      await initAnonAuth();
+      if (isOnline) {
+        await initAnonAuth();
+      }
 
-      const existingKills = await loadKills();
+      const existingKills = await ctrl.loadKills();
       setKills(existingKills);
 
-      channel = supabase
-        .channel('kills')
-        .on('postgres_changes',
-          { event: '*', schema: 'public', table: 'kills' },
-          (payload) => {
-            if (payload.eventType === 'INSERT') {
-              setKills((prev) => {
-                const dup = (payload.new as IKill);
-                const filtered = prev.filter(
-                  (k) => !(k.mvp_id === dup.mvp_id && k.death_map === dup.death_map)
+      if (isOnline) {
+        channel = supabase
+          .channel('kills')
+          .on('postgres_changes',
+            { event: '*', schema: 'public', table: 'kills' },
+            (payload) => {
+              if (payload.eventType === 'INSERT') {
+                setKills((prev) => {
+                  const dup = (payload.new as IKill);
+                  const filtered = prev.filter(
+                    (k) => !(k.mvp_id === dup.mvp_id && k.death_map === dup.death_map)
+                  );
+                  return [...filtered, dup];
+                });
+              } else if (payload.eventType === 'UPDATE') {
+                setKills((prev) =>
+                  prev.map((k) =>
+                    k.id === (payload.new as IKill).id ? (payload.new as IKill) : k
+                  )
                 );
-                return [...filtered, dup];
-              });
-            } else if (payload.eventType === 'UPDATE') {
-              setKills((prev) =>
-                prev.map((k) =>
-                  k.id === (payload.new as IKill).id ? (payload.new as IKill) : k
-                )
-              );
-            } else if (payload.eventType === 'DELETE') {
-              setKills((prev) =>
-                prev.filter((k) => k.id !== (payload.old as IKill).id)
-              );
+              } else if (payload.eventType === 'DELETE') {
+                setKills((prev) =>
+                  prev.filter((k) => k.id !== (payload.old as IKill).id)
+                );
+              }
             }
-          }
-        )
-        .subscribe();
+          )
+          .subscribe();
+      }
 
       setIsLoading(false);
     }
@@ -88,7 +95,7 @@ export function MvpProvider({ children }: MvpProviderProps) {
     return () => {
       if (channel) supabase.removeChannel(channel);
     };
-  }, []);
+  }, [isOnline]);
 
   useEffect(() => {
     async function hydrate() {
@@ -159,7 +166,7 @@ export function MvpProvider({ children }: MvpProviderProps) {
     async (mvp: IMvp, deathTime?: Date | null) => {
       const time = (deathTime || new Date()).toISOString();
       const name = getPlayerName();
-      await upsertKill(mvp.id, mvp.deathMap!, time, mvp.deathPosition ?? null);
+      await ctrl.upsertKill(mvp.id, mvp.deathMap!, time, mvp.deathPosition ?? null);
 
       setKills((prev) => {
         const filtered = prev.filter(
@@ -178,31 +185,32 @@ export function MvpProvider({ children }: MvpProviderProps) {
         ];
       });
     },
-    []
+    [ctrl]
   );
 
   const resetMvpTimer = useCallback(async (mvp: IMvp) => {
     const time = new Date().toISOString();
-    await updateKillTime(mvp.id, mvp.deathMap!, time);
+    const name = getPlayerName();
+    await ctrl.updateKillTime(mvp.id, mvp.deathMap!, time);
 
     setKills((prev) =>
       prev.map((k) =>
         k.mvp_id === mvp.id && k.death_map === mvp.deathMap
-          ? { ...k, death_time: time }
+          ? { ...k, death_time: time, killed_by_name: name }
           : k
       )
     );
-  }, []);
+  }, [ctrl]);
 
   const removeMvpByMap = useCallback(
     async (mvpID: number, deathMap: string) => {
-      await deleteKill(mvpID, deathMap);
+      await ctrl.deleteKill(mvpID, deathMap);
 
       setKills((prev) =>
         prev.filter((k) => !(k.mvp_id === mvpID && k.death_map === deathMap))
       );
     },
-    []
+    [ctrl]
   );
 
   const closeEditMvpModal = useCallback(() => setEditingMvp(undefined), []);

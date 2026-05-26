@@ -1,41 +1,40 @@
 import { useCallback, useState } from 'react';
+import { useSettings } from '@/contexts/SettingsContext';
 
 const STORAGE_KEY = 'notificationPrefs';
 
-function loadPrefs(): Set<number> {
+export function notifKey(mvpId: number, map?: string): string {
+  return map ? `${mvpId}-${map}` : `${mvpId}`;
+}
+
+function loadPrefs(): Record<string, boolean> {
   try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    return new Set<number>(raw ? JSON.parse(raw) : []);
+    return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
   } catch {
-    return new Set<number>();
+    return {};
   }
 }
 
-function persistPrefs(prefs: Set<number>) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify([...prefs]));
+function persistPrefs(prefs: Record<string, boolean>) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(prefs));
 }
 
 export function useNotificationPrefs() {
-  const [prefs, setPrefs] = useState<Set<number>>(loadPrefs);
+  const { isOnline } = useSettings();
+  const [prefs, setPrefs] = useState<Record<string, boolean>>(loadPrefs);
 
-  const toggle = useCallback((mvpId: number) => {
+  const toggle = useCallback((key: string) => {
     setPrefs((prev) => {
-      const next = new Set(prev);
-      const stored = loadPrefs();
-      for (const id of stored) {
-        next.add(id);
-      }
-      if (next.has(mvpId)) {
-        next.delete(mvpId);
-      } else {
-        next.add(mvpId);
-      }
+      const next = { ...prev, [key]: !prev[key] };
       persistPrefs(next);
       return next;
     });
   }, []);
 
-  const has = useCallback((mvpId: number) => prefs.has(mvpId), [prefs]);
+  const has = useCallback(
+    (key: string) => prefs[key] ?? !isOnline,
+    [prefs, isOnline]
+  );
 
-  return { prefs, toggle, has };
+  return { toggle, has };
 }

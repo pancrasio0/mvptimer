@@ -1,8 +1,10 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import { MvpCard } from '@/components/MvpCard';
 import { useMvpsContext } from '@/contexts/MvpsContext';
+import { useSettings } from '@/contexts/SettingsContext';
+import { useNotificationPrefs, notifKey } from '@/hooks/useNotificationPrefs';
 import { MvpsContainerFilter } from '@/components/MvpsContainerFilter';
 import { MvpCardSkeleton } from '@/components/Skeletons/MvpCardSkeleton';
 import { ModalEditMvp } from '@/modals';
@@ -13,6 +15,18 @@ import { Container, Section, SectionTitle, MvpsContainer } from './styles';
 
 export function Main() {
   const { activeMvps, allMvps, editingMvp, isLoading } = useMvpsContext();
+  const { isOnline } = useSettings();
+  const { has: hasNotifPref } = useNotificationPrefs();
+
+  const favoritedActive = useMemo(
+    () =>
+      isOnline
+        ? activeMvps.filter((mvp) =>
+            hasNotifPref(notifKey(mvp.id, mvp.deathMap))
+          )
+        : [],
+    [activeMvps, isOnline, hasNotifPref]
+  );
   const [searchQuery, setSearchQuery] = useState<string>(
     sessionStorage.getItem('search') || ''
   );
@@ -40,6 +54,20 @@ export function Main() {
   return (
     <>
       <Container>
+        {favoritedActive.length > 0 && (
+          <Section>
+            <SectionTitle>
+              Favorites
+            </SectionTitle>
+
+            <MvpsContainer>
+              {favoritedActive.map((mvp: IMvp) => (
+                <MvpCard key={`fav-${mvp.id}-${mvp.deathMap}`} mvp={mvp} />
+              ))}
+            </MvpsContainer>
+          </Section>
+        )}
+
         {activeMvps.length > 0 && (
           <Section>
             <SectionTitle>

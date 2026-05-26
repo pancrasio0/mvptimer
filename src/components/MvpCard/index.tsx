@@ -8,6 +8,7 @@ import { MvpCardCountdown } from '../MvpCardCountdown';
 import { ModalMvpMap } from '@/modals';
 
 import { useNotification, useNotificationPrefs } from '@/hooks';
+import { notifKey } from '@/hooks/useNotificationPrefs';
 
 import { useMvpsContext } from '@/contexts/MvpsContext';
 import { useSettings } from '@/contexts/SettingsContext';
@@ -42,7 +43,8 @@ export function MvpCard({ mvp }: MvpCardProps) {
   const [isMapModalOpen, setIsMapModalOpen] = useState(false);
 
   const isActive = !!mvp.deathMap;
-  const isNotifEnabled = hasNotifPref(mvp.id);
+  const notifPrefKey = isActive ? notifKey(mvp.id, mvp.deathMap) : notifKey(mvp.id);
+  const isNotifEnabled = hasNotifPref(notifPrefKey);
 
   const nextRespawn = useMemo(
     () => dayjs(mvp.deathTime).add(getMvpRespawnTime(mvp), 'ms'),
@@ -88,7 +90,7 @@ export function MvpCard({ mvp }: MvpCardProps) {
             />
 
             <BellButton
-              onClick={() => toggleNotifPref(mvp.id)}
+              onClick={() => toggleNotifPref(notifPrefKey)}
               title={isNotifEnabled ? 'Disable notification' : 'Enable notification'}
               active={isNotifEnabled}
             >
@@ -125,7 +127,7 @@ export function MvpCard({ mvp }: MvpCardProps) {
         ) : (
           <>
             <BellButton
-              onClick={() => toggleNotifPref(mvp.id)}
+              onClick={() => toggleNotifPref(notifPrefKey)}
               title={isNotifEnabled ? 'Disable notification' : 'Enable notification'}
               active={isNotifEnabled}
             >

@@ -20,6 +20,8 @@ interface SettingsContextData {
   changeLanguage: (id: string) => void;
   server: string;
   changeServer: (id: string) => void;
+  isOnline: boolean;
+  toggleOnline: () => void;
   //resetSettings: () => void;
 }
 
@@ -82,6 +84,15 @@ export function SettingsProvider({ children }: SettingsProviderProps) {
     [setSettings]
   );
 
+  const toggleOnline = useCallback(
+    () =>
+      setSettings((prev) => ({
+        ...prev,
+        isOnline: !prev.isOnline,
+      })),
+    [setSettings]
+  );
+
   /* const resetSettings = useCallback(() => {
     resetTheme();
     setSettings(DEFAULT_SETTINGS);
@@ -91,6 +102,7 @@ export function SettingsProvider({ children }: SettingsProviderProps) {
     <SettingsContext.Provider
       value={{
         ...settings,
+        isOnline: settings.isOnline ?? true,
         toggleRespawnCountdown,
         toggleAnimatedSprites,
         use24HourFormat: true, // temporary
@@ -98,6 +110,7 @@ export function SettingsProvider({ children }: SettingsProviderProps) {
         toggleNotificationSound,
         changeLanguage,
         changeServer,
+        toggleOnline,
         //resetSettings,
       }}
     >

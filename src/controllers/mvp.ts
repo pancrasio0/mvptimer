@@ -38,9 +38,10 @@ export async function upsertKill(
 }
 
 export async function updateKillTime(mvpId: number, deathMap: string, deathTime: string) {
+  const name = getPlayerName();
   const { error } = await supabase
     .from('kills')
-    .update({ death_time: deathTime })
+    .update({ death_time: deathTime, killed_by_name: name })
     .match({ mvp_id: mvpId, death_map: deathMap });
 
   if (error) console.error('Failed to update kill time', error);

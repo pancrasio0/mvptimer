@@ -13,6 +13,7 @@ export const DEFAULT_SETTINGS = {
   isNotificationSoundEnabled: true,
   language: DEFAULT_LANG,
   server: DEFAULT_SERVER,
+  isOnline: true,
 };
 
 export const LOCAL_STORAGE_THEME_KEY = 'theme';
@@ -22,3 +23,5 @@ export const LOCAL_STORAGE_ACTIVE_MVPS_KEY = 'activeMvps';
 export const SUPPORTED_SERVERS = [
   'pow4ever',
 ];
+
+export const LOCAL_STORAGE_OFFLINE_KILLS_KEY = 'offlineKills';

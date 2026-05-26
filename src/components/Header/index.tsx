@@ -2,6 +2,7 @@ import { HeaderTimer } from '../HeaderTimer';
 import { ServerButton } from '../ServerButton';
 import { SettingsButton } from '../SettingsButton';
 import { PlayerName } from '../PlayerName';
+import { OnlineToggle } from '../OnlineToggle';
 import { useSettings } from '@/contexts/SettingsContext';
 
 import mvpImg from '@/assets/mvp.png';
@@ -22,6 +23,7 @@ export function Header() {
 
       <Customization>
         <PlayerName />
+        <OnlineToggle />
         <ServerButton />
         <SettingsButton />
       </Customization>
