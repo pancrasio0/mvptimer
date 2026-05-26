@@ -21,6 +21,10 @@ export function useNotificationPrefs() {
   const toggle = useCallback((mvpId: number) => {
     setPrefs((prev) => {
       const next = new Set(prev);
+      const stored = loadPrefs();
+      for (const id of stored) {
+        next.add(id);
+      }
       if (next.has(mvpId)) {
         next.delete(mvpId);
       } else {
