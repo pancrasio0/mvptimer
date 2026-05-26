@@ -23,6 +23,13 @@ export default defineConfig({
     react(),
     wyw({
       include: ['**/*.{ts,tsx}'],
+      babelOptions: {
+        presets: [
+          '@babel/preset-env',
+          '@babel/preset-react',
+          '@babel/preset-typescript',
+        ],
+      },
     }),
     imagetools({
       exclude: ['./src/assets/mvp_icons_animated/**/*'],
