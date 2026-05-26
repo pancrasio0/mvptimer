@@ -1,10 +1,9 @@
 import { Button, Sizes } from './styles';
 
-interface ModalPrimaryButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+type ModalPrimaryButtonProps = {
   children: React.ReactNode;
   size?: Sizes;
-}
+} & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 export function ModalPrimaryButton({
   children,
