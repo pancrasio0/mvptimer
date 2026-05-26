@@ -58,7 +58,13 @@ export function MvpProvider({ children }: MvpProviderProps) {
           { event: '*', schema: 'public', table: 'kills' },
           (payload) => {
             if (payload.eventType === 'INSERT') {
-              setKills((prev) => [...prev, payload.new as IKill]);
+              setKills((prev) => {
+                const dup = (payload.new as IKill);
+                const filtered = prev.filter(
+                  (k) => !(k.mvp_id === dup.mvp_id && k.death_map === dup.death_map)
+                );
+                return [...filtered, dup];
+              });
             } else if (payload.eventType === 'UPDATE') {
               setKills((prev) =>
                 prev.map((k) =>
