@@ -18,6 +18,7 @@ interface IMvp {
     baseExperience: number;
     jobExperience: number;
   };
+  respawnTimerSoonThresholdMs?: number;
   deathTime?: Date;
   deathMap?: string;
   deathPosition?: IMapMark;

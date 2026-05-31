@@ -77,6 +77,7 @@ export function MvpCard({ mvp }: MvpCardProps) {
             <MvpCardCountdown
               nextRespawn={nextRespawn}
               respawnAsCountdown={respawnAsCountdown}
+              respawnTimerSoonThresholdMs={mvp.respawnTimerSoonThresholdMs}
               onTriggerNotification={
                 isNotifEnabled
                   ? () =>
