@@ -8,3 +8,4 @@ export { useScrollBlock } from './useScrollBlock';
 export { useSecondsTimer } from './useSecondsTimer';
 export { useTheme } from './useTheme';
 export { useTimer } from './useTimer';
+export { useVoteTimer } from './useVoteTimer';

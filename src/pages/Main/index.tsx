@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import { MvpCard } from '@/components/MvpCard';
+import { VoteButton } from '@/components/VoteButton';
 import { useMvpsContext } from '@/contexts/MvpsContext';
 import { useSettings } from '@/contexts/SettingsContext';
 import { useNotificationPrefs, notifKey } from '@/hooks/useNotificationPrefs';
@@ -59,6 +60,8 @@ export function Main() {
   return (
     <>
       <Container>
+        <VoteButton />
+
         {favoritedActive.length > 0 && (
           <Section>
             <SectionTitle>
