@@ -166,12 +166,12 @@
                       {
                           "mapname":  "anthell01",
                           "respawnTime":  7200000,
-                          "respawnTimerSoonThresholdMs":  600000
+                          "respawnTimerSoonThresholdMs":  3600000
                       },
                       {
                           "mapname":  "gld_dun02_2_2",
                           "respawnTime":  1200000,
-                          "respawnTimerSoonThresholdMs":  3600000
+                          "respawnTimerSoonThresholdMs":  600000
                       }
                   ],
         "stats":  {
