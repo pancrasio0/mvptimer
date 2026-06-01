@@ -6,6 +6,7 @@ interface IMapMark {
 interface ISpawn {
   mapname: string;
   respawnTime: number;
+  respawnTimerSoonThresholdMs?: number;
 }
 
 interface IMvp {
@@ -18,7 +19,6 @@ interface IMvp {
     baseExperience: number;
     jobExperience: number;
   };
-  respawnTimerSoonThresholdMs?: number;
   deathTime?: Date;
   deathMap?: string;
   deathPosition?: IMapMark;

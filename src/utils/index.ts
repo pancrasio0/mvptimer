@@ -107,6 +107,11 @@ export function getMvpRespawnTime(mvp: IMvp): number | undefined {
   return respawnTime;
 }
 
+export function getMvpSoonThreshold(mvp: IMvp): number | undefined {
+  const deathMap = mvp.spawn.find((spawn) => spawn.mapname === mvp.deathMap);
+  return deathMap?.respawnTimerSoonThresholdMs;
+}
+
 /**
  * Clear the local storage
  */

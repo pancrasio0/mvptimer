@@ -12,7 +12,7 @@ import { notifKey } from '@/hooks/useNotificationPrefs';
 
 import { useMvpsContext } from '@/contexts/MvpsContext';
 import { useSettings } from '@/contexts/SettingsContext';
-import { getMvpRespawnTime } from '@/utils';
+import { getMvpRespawnTime, getMvpSoonThreshold } from '@/utils';
 import { GetTranslateText } from '@/utils/GetTranslateText';
 
 import {
@@ -77,7 +77,7 @@ export function MvpCard({ mvp }: MvpCardProps) {
             <MvpCardCountdown
               nextRespawn={nextRespawn}
               respawnAsCountdown={respawnAsCountdown}
-              respawnTimerSoonThresholdMs={mvp.respawnTimerSoonThresholdMs}
+              respawnTimerSoonThresholdMs={getMvpSoonThreshold(mvp)}
               onTriggerNotification={
                 isNotifEnabled
                   ? () =>
