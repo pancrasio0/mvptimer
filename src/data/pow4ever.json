@@ -924,7 +924,7 @@
                       {
                           "mapname":  "niflheim",
                           "respawnTime":  7980000,
-                          "respawnTimerSoonThresholdMs":  600000
+                          "respawnTimerSoonThresholdMs":  0
                       }
                   ],
         "stats":  {
