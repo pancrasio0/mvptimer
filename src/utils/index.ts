@@ -68,10 +68,11 @@ export const respawnIn = (time: Dayjs) => time.format('HH:mm:ss');
 /**
  * Convert Dayjs object to string with the interval that MVP can respawn
  * @param time Dayjs object
+ * @param thresholdMs threshold in milliseconds (default 600000 = 10 min)
  * @returns string with this format 'HH:mm ~ HH:mm' ex: '16:00 ~ 16:10'
  */
-export const respawnAt = (time: Dayjs) =>
-  `${time.format('HH:mm')} ~ ${time.add(10, 'minutes').format('HH:mm')}`;
+export const respawnAt = (time: Dayjs, thresholdMs = 600000) =>
+  `${time.format('HH:mm')} ~ ${time.add(thresholdMs, 'ms').format('HH:mm')}`;
 
 /**
  * Returns the MVP sprite or question emoticon if not found

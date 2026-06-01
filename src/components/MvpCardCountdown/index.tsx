@@ -18,7 +18,8 @@ function getTimeString(
   nextRespawn: Dayjs,
   duration: Duration,
   respawnAsCountdown?: boolean,
-  missedRespawn?: boolean
+  missedRespawn?: boolean,
+  thresholdMs?: number
 ) {
   if (respawnAsCountdown && duration) {
     const isMoreThan24Hours = dayjs().diff(nextRespawn, 'h') >= 24;
@@ -34,7 +35,7 @@ function getTimeString(
 
   if (missedRespawn) return duration.humanize(true);
 
-  return respawnAt(nextRespawn);
+  return respawnAt(nextRespawn, thresholdMs);
 }
 
 export function MvpCardCountdown({
@@ -58,7 +59,8 @@ export function MvpCardCountdown({
     nextRespawn,
     respawningSoon || missedRespawn ? durationWithRespawnDelay : duration,
     respawnAsCountdown,
-    missedRespawn
+    missedRespawn,
+    respawnTimerSoonThresholdMs
   );
 
   const shouldTriggerNotification =
