@@ -7,7 +7,7 @@
                       {
                           "mapname":  "spl_fild03",
                           "respawnTime":  3600000,
-                          "respawnTimerSoonThresholdMs":  600000
+                          "respawnTimerSoonThresholdMs":  0
                       }
                   ],
         "stats":  {
@@ -25,7 +25,7 @@
                       {
                           "mapname":  "man_fild03",
                           "respawnTime":  14400000,
-                          "respawnTimerSoonThresholdMs":  600000
+                          "respawnTimerSoonThresholdMs":  0
                       }
                   ],
         "stats":  {
@@ -61,7 +61,7 @@
                       {
                           "mapname":  "OLD_POW",
                           "respawnTime":  600000,
-                          "respawnTimerSoonThresholdMs":  600000
+                          "respawnTimerSoonThresholdMs":  0
                       }
                   ],
         "stats":  {
@@ -78,8 +78,8 @@
         "spawn":  [
                       {
                           "mapname":  "lhz_dun03",
-                          "respawnTime":  7200000,
-                          "respawnTimerSoonThresholdMs":  600000
+                          "respawnTime":  6000000,
+                          "respawnTimerSoonThresholdMs":  1800000
                       }
                   ],
         "stats":  {
@@ -97,12 +97,12 @@
                       {
                           "mapname":  "prt_dugn03_(old pow)",
                           "respawnTime":  300000,
-                          "respawnTimerSoonThresholdMs":  600000
+                          "respawnTimerSoonThresholdMs":  0
                       },
                       {
                           "mapname":  "pro_fild01(old pow)",
                           "respawnTime":  3600000,
-                          "respawnTimerSoonThresholdMs":  600000
+                          "respawnTimerSoonThresholdMs":  0
                       }
                   ],
         "stats":  {
@@ -114,8 +114,8 @@
     },
     {
         "id":  3505,
-        "dbname":  "Poring ArcÃ¡ngel",
-        "name":  "Poring ArcÃ¡ngel",
+        "dbname":  "Poring Arcángel",
+        "name":  "Poring Arcángel",
         "spawn":  [
                       {
                           "mapname":  "pro_fild04(old pow)",
@@ -165,13 +165,13 @@
         "spawn":  [
                       {
                           "mapname":  "anthell01",
-                          "respawnTime":  10200000,
+                          "respawnTime":  7200000,
                           "respawnTimerSoonThresholdMs":  600000
                       },
                       {
                           "mapname":  "gld_dun02_2_2",
                           "respawnTime":  1200000,
-                          "respawnTimerSoonThresholdMs":  600000
+                          "respawnTimerSoonThresholdMs":  3600000
                       }
                   ],
         "stats":  {
@@ -906,7 +906,7 @@
                       {
                           "mapname":  "moc_fild22",
                           "respawnTime":  43200000,
-                          "respawnTimerSoonThresholdMs":  600000
+                          "respawnTimerSoonThresholdMs":  3600000
                       }
                   ],
         "stats":  {
