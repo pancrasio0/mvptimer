@@ -13,37 +13,41 @@ export const Button = styled.button`
   justify-content: center;
   flex-direction: column;
 
-  min-width: 260px;
+  min-width: 240px;
   padding: 6px 24px;
 
-  border: 2px solid var(--primary);
+  border: 0;
   border-radius: 8px;
 
-  background-color: var(--mvpCard_bg);
-  color: var(--mvpCard_text);
-
-  font-size: 14px;
+  font-weight: bold;
 
   &:hover {
     opacity: 0.85;
   }
 `;
 
-export const VoteLabel = styled.span`
-  font-size: 18px;
-  font-weight: bold;
-  color: var(--mvpCard_killButton);
+export const VoteButtonActive = styled(Button)`
+  background-color: var(--mvpCard_controls_edit);
+  color: #fff;
+  font-size: 20px;
+  padding: 10px 36px;
+`;
+
+export const CooldownContainer = styled(Button)`
+  background-color: var(--mvpCard_bg);
+  border: 2px solid var(--mvpCard_controls_edit);
+  cursor: default;
 `;
 
 export const CooldownLabel = styled.span`
   font-size: 12px;
   color: var(--mvpCard_text);
-  opacity: 0.85;
+  opacity: 0.8;
 `;
 
 export const Timer = styled.span`
   font-size: 16px;
   font-weight: bold;
-  color: var(--primary);
+  color: var(--mvpCard_controls_edit);
   letter-spacing: 1px;
 `;

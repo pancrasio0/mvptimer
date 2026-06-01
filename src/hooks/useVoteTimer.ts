@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState, useRef } from 'react';
 
 const VOTE_KEY = 'mvptimer_vote_timestamp';
 const VOTE_DURATION_MS = 24 * 60 * 60 * 1000;
@@ -24,25 +24,28 @@ export function useVoteTimer() {
 
   const elapsed = voteTimestamp !== null ? now - voteTimestamp : 0;
   const remaining = Math.max(0, VOTE_DURATION_MS - elapsed);
-  const canVote = remaining <= 0;
+  const canVote = voteTimestamp === null || remaining <= 0;
 
-  const [notificationSent, setNotificationSent] = useState(false);
+  const lastNotifiedVote = useRef<number | null>(null);
 
   useEffect(() => {
-    if (!canVote || notificationSent) return;
-    setNotificationSent(true);
+    if (!canVote || voteTimestamp === null || lastNotifiedVote.current === voteTimestamp) return;
+    lastNotifiedVote.current = voteTimestamp;
 
-    const permissionGranted = 'Notification' in window && Notification.permission === 'granted';
-    if (!permissionGranted) return;
+    const hasNotification = 'Notification' in window;
+    if (!hasNotification) return;
 
-    new Notification('Vote Timer', {
-      body: 'Ya puedes votar de nuevo!',
-    });
-
-    const audio = new Audio('notification.mp3');
-    audio.volume = 0.2;
-    audio.play();
-  }, [canVote, notificationSent]);
+    if (Notification.permission === 'granted') {
+      new Notification('Vote Timer', {
+        body: 'Ya puedes votar de nuevo!',
+      });
+      const audio = new Audio('notification.mp3');
+      audio.volume = 0.2;
+      audio.play();
+    } else if (Notification.permission !== 'denied') {
+      Notification.requestPermission();
+    }
+  }, [canVote, voteTimestamp]);
 
   const formattedRemaining = useMemo(() => {
     if (remaining <= 0) return null;
@@ -57,7 +60,6 @@ export function useVoteTimer() {
     const ts = Date.now();
     localStorage.setItem(VOTE_KEY, String(ts));
     setVoteTimestamp(ts);
-    setNotificationSent(false);
   }, []);
 
   return { canVote, formattedRemaining, vote };

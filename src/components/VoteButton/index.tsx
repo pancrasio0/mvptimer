@@ -1,5 +1,11 @@
 import { useVoteTimer } from '@/hooks/useVoteTimer';
-import { Button, CooldownLabel, Timer, VoteLabel, Wrapper } from './styles';
+import {
+  CooldownContainer,
+  CooldownLabel,
+  Timer,
+  VoteButtonActive,
+  Wrapper,
+} from './styles';
 
 export function VoteButton() {
   const { canVote, formattedRemaining, vote } = useVoteTimer();
@@ -7,14 +13,12 @@ export function VoteButton() {
   return (
     <Wrapper>
       {canVote ? (
-        <Button onClick={vote}>
-          <VoteLabel>VOTAR</VoteLabel>
-        </Button>
+        <VoteButtonActive onClick={vote}>VOTAR</VoteButtonActive>
       ) : (
-        <Button>
+        <CooldownContainer>
           <CooldownLabel>Podrás votar de nuevo en:</CooldownLabel>
           <Timer>{formattedRemaining}</Timer>
-        </Button>
+        </CooldownContainer>
       )}
     </Wrapper>
   );
