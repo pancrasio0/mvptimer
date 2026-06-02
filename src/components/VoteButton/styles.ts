@@ -51,3 +51,33 @@ export const Timer = styled.span`
   color: var(--mvpCard_controls_edit);
   letter-spacing: 1px;
 `;
+
+export const Inner = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+`;
+
+export const RefreshButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+
+  font-weight: bolder;
+  background-color: var(--mvpCard_controls_edit);
+
+  svg {
+    stroke-width: 3px;
+    width: 17px;
+    height: 17px;
+    color: #fff;
+  }
+
+  &:hover {
+    opacity: 0.8;
+  }
+`;

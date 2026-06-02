@@ -62,5 +62,10 @@ export function useVoteTimer() {
     setVoteTimestamp(ts);
   }, []);
 
-  return { canVote, formattedRemaining, vote };
+  const resetVote = useCallback(() => {
+    localStorage.removeItem(VOTE_KEY);
+    setVoteTimestamp(null);
+  }, []);
+
+  return { canVote, formattedRemaining, vote, resetVote };
 }
