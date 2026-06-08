@@ -22,7 +22,7 @@ export function parseOCRLines(text: string): {
   let ignored = 0;
 
   for (const line of lines) {
-    const trimmed = line.trim();
+    const trimmed = line.trim().replace(/^>\s*/, '');
     if (!trimmed) {
       ignored++;
       continue;
