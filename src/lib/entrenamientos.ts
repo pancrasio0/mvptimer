@@ -60,7 +60,7 @@ export async function upsertEntrenamientos(
       .from('entrenamientos')
       .select('cantidad_minima, cantidad_maxima')
       .eq('nombre', item.nombre)
-      .single();
+      .maybeSingle();
 
     if (existing) {
       const newMin = Math.min(existing.cantidad_minima, item.total);
