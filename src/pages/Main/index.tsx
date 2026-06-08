@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import { MvpCard } from '@/components/MvpCard';
+import { UploadTrainingButton } from '@/components/UploadTrainingButton';
 import { VoteButton } from '@/components/VoteButton';
 import { useMvpsContext } from '@/contexts/MvpsContext';
 import { useSettings } from '@/contexts/SettingsContext';
@@ -60,6 +61,7 @@ export function Main() {
   return (
     <>
       <Container>
+        <UploadTrainingButton />
         <VoteButton />
 
         {favoritedActive.length > 0 && (
