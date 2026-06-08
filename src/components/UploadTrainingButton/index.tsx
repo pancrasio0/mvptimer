@@ -64,6 +64,8 @@ export function UploadTrainingButton() {
           throw new Error(data.error || 'Error al procesar la imagen');
         }
 
+        console.log('--- OCR RAW TEXT ---\n%s\n--- END ---', data.text);
+
         const { items, ignored } = parseOCRLines(data.text);
         const totalLines = data.text.split('\n').length;
 
