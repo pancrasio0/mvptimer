@@ -9,6 +9,18 @@ export const Container = styled.main`
   background-color: var(--secondary);
 `;
 
+export const TopBar = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+`;
+
+export const RightSection = styled.div`
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+`;
+
 export const Section = styled.div`
   display: flex;
   flex-direction: column;

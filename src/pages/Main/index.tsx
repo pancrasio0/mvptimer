@@ -13,7 +13,7 @@ import { ModalEditMvp } from '@/modals';
 
 import { sortBy } from '@/utils/sort';
 
-import { Container, Section, SectionTitle, MvpsContainer } from './styles';
+import { Container, TopBar, RightSection, Section, SectionTitle, MvpsContainer } from './styles';
 
 export function Main() {
   const { activeMvps, allMvps, editingMvp, isLoading } = useMvpsContext();
@@ -61,8 +61,12 @@ export function Main() {
   return (
     <>
       <Container>
-        <UploadTrainingButton />
-        <VoteButton />
+        <TopBar>
+          <UploadTrainingButton />
+          <RightSection>
+            <VoteButton />
+          </RightSection>
+        </TopBar>
 
         {favoritedActive.length > 0 && (
           <Section>

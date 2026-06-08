@@ -16,19 +16,30 @@ export function parseOCRLines(text: string): {
   items: ParsedEntrenamiento[];
   ignored: number;
 } {
-  const lines = text.split('\n');
-  const seen = new Set<string>();
-  const items: ParsedEntrenamiento[] = [];
+  const rawLines = text.split('\n');
+  const merged: string[] = [];
   let ignored = 0;
 
-  for (const line of lines) {
-    const trimmed = line.trim().replace(/^>\s*/, '');
+  for (const rawLine of rawLines) {
+    const trimmed = rawLine.trim().replace(/^>\s*/, '');
     if (!trimmed) {
       ignored++;
       continue;
     }
 
-    const match = trimmed.match(/^(.+?)\s*\((\d+)\/(\d+)\)\s*$/);
+    const continuation = /^\(\d+\/\d+\)$/.test(trimmed);
+    if (continuation && merged.length > 0) {
+      merged[merged.length - 1] += ' ' + trimmed;
+    } else {
+      merged.push(trimmed);
+    }
+  }
+
+  const seen = new Set<string>();
+  const items: ParsedEntrenamiento[] = [];
+
+  for (const line of merged) {
+    const match = line.match(/^(.+?)\s*\((\d+)\/(\d+)\)\s*$/);
     if (!match) {
       ignored++;
       continue;

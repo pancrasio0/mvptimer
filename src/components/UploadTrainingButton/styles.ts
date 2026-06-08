@@ -1,8 +1,6 @@
 import { styled } from '@linaria/react';
 
 export const Wrapper = styled.div`
-  align-self: flex-start;
-  margin-bottom: 10px;
   position: relative;
 `;
 
