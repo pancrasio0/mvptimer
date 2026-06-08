@@ -58,7 +58,7 @@ export async function upsertEntrenamientos(
   for (const item of items) {
     const { data: existing } = await supabase
       .from('entrenamientos')
-      .select('cantidad_minima, cantidad_maxima')
+      .select('cantidad_minima, cantidad_maxima, cantidad_apariciones')
       .eq('nombre', item.nombre)
       .maybeSingle();
 
@@ -68,7 +68,11 @@ export async function upsertEntrenamientos(
 
       await supabase
         .from('entrenamientos')
-        .update({ cantidad_minima: newMin, cantidad_maxima: newMax })
+        .update({
+          cantidad_minima: newMin,
+          cantidad_maxima: newMax,
+          cantidad_apariciones: existing.cantidad_apariciones + 1,
+        })
         .eq('nombre', item.nombre);
 
       updated++;
@@ -79,6 +83,7 @@ export async function upsertEntrenamientos(
           nombre: item.nombre,
           cantidad_minima: item.total,
           cantidad_maxima: item.total,
+          cantidad_apariciones: 1,
         });
 
       inserted++;
